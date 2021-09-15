@@ -121,8 +121,10 @@ class CityscapeDataset(utils.Dataset):
 
         # Add images(legacy)
         image_dir = "{}/{}".format(DATA_DIR, self.subset)
-        image_ids = os.listdir(image_dir)
+        image_ids = os.listdir(image_dir)[:500]
         for index, item in enumerate(image_ids):
+            if (index+1) %100 == 0:
+                print("loading shape of {}th image, subset = {}".format(index + 1, self.subset))
             temp_image_path = "{}/{}".format(image_dir, item)
             temp_image_size = skimage.io.imread(temp_image_path).shape
             self.add_image("cityscape", image_id=index, gt_id=os.path.splitext(item)[0],
