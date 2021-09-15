@@ -17,16 +17,19 @@ def _parse_requirements(file_path):
     pip_ver = pkg_resources.get_distribution('pip').version
     pip_version = list(map(int, pip_ver.split('.')[:2]))
     if pip_version >= [6, 0]:
-        raw = pip.req.parse_requirements(file_path,
+        raw = pip._internal.req.parse_requirements(file_path,
                                          session=pip.download.PipSession())
     else:
-        raw = pip.req.parse_requirements(file_path)
-    return [str(i.req) for i in raw]
+        raw = pip._internal.req.parse_requirements(file_path)
+    return [str(i._internals.req) for i in raw]
 
 
 # parse_requirements() returns generator of pip.req.InstallRequirement objects
 #try:
-install_reqs = _parse_requirements("requirements.txt")
+install_reqs = None
+with open('requirements.txt') as fp:
+    install_reqs = fp.read()
+#install_reqs = _parse_requirements("requirements.txt")
 #except Exception:
 #    logging.warning('Fail load requirements file, so using default ones.')
 #    install_reqs = []
