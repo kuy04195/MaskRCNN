@@ -132,7 +132,7 @@ class CityscapeDataset(utils.Dataset):
         # Add images(modified)
         image_dir = "{}/{}".format(DATA_DIR, self.subset)
         index_cnt = 0
-        for city in os.listdir(image_dir)[:1]:
+        for city in os.listdir(image_dir)[:6]:
 #            print("{}/{}".format(image_dir, city))
 #            city_dir.append("{}/{}".format(image_dir, city))
             image_ids = os.listdir("{}/{}".format(image_dir, city))
@@ -214,6 +214,7 @@ dataset_val.prepare()
 
 
 # Create model in training mode
+print("Create model in training mode")
 model = modellib.MaskRCNN(mode="training", config=config,
                           model_dir=MODEL_DIR)
 
@@ -233,7 +234,9 @@ elif init_with == "last":
     # Load the last model you trained and continue training
     model.load_weights(model.find_last()[1], by_name=True)
 
+print("init done")
 if TRAINING:
+    print("Start Training")
     # Train the head branches
     # Passing layers="heads" freezes all layers except the head
     # layers. You can also pass a regular expression to select
