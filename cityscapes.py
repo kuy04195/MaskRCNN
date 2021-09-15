@@ -145,7 +145,6 @@ class CityscapeDataset(utils.Dataset):
                                 path=temp_image_path)
             index_cnt += len(image_ids)
             print(index_cnt)
-        print("load_shape_")
 
     def load_image(self, image_id):
         """Load images according to the given image ID."""
@@ -214,7 +213,6 @@ dataset_val.prepare()
 
 
 # Create model in training mode
-print("Create model in training mode")
 model = modellib.MaskRCNN(mode="training", config=config,
                           model_dir=MODEL_DIR)
 
@@ -234,9 +232,7 @@ elif init_with == "last":
     # Load the last model you trained and continue training
     model.load_weights(model.find_last()[1], by_name=True)
 
-print("init done")
 if TRAINING:
-    print("Start Training")
     # Train the head branches
     # Passing layers="heads" freezes all layers except the head
     # layers. You can also pass a regular expression to select
