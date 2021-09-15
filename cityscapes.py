@@ -119,15 +119,33 @@ class CityscapeDataset(utils.Dataset):
         self.add_class("cityscape", 5, "motorcycle")
         self.add_class("cityscape", 6, "bicycle")
 
-        # Add images
+        # Add images(legacy)
+#        image_dir = "{}/{}".format(DATA_DIR, self.subset)
+#        image_ids = os.listdir(image_dir)
+#        for index, item in enumerate(image_ids):
+#            temp_image_path = "{}/{}".format(image_dir, item)
+#            temp_image_size = skimage.io.imread(temp_image_path).shape
+#            self.add_image("cityscape", image_id=index, gt_id=os.path.splitext(item)[0],
+#                            height=temp_image_size[0], width=temp_image_size[1],
+#                            path=temp_image_path)
+        
+        # Add images(modified)
         image_dir = "{}/{}".format(DATA_DIR, self.subset)
-        image_ids = os.listdir(image_dir)
-        for index, item in enumerate(image_ids):
-            temp_image_path = "{}/{}".format(image_dir, item)
-            temp_image_size = skimage.io.imread(temp_image_path).shape
-            self.add_image("cityscape", image_id=index, gt_id=os.path.splitext(item)[0],
-                            height=temp_image_size[0], width=temp_image_size[1],
-                            path=temp_image_path)
+        index_cnt = 0
+        for city in os.listdir(image_dir):
+#            print("{}/{}".format(image_dir, city))
+#            city_dir.append("{}/{}".format(image_dir, city))
+            image_ids = os.listdir("{}/{}".format(image_dir, city))
+
+            for index, item in enumerate(image_ids):
+                temp_image_path = "{}/{}/{}".format(image_dir, city, item)
+                temp_image_size = skimage.io.imread(temp_image_path).shape
+                self.add_image("cityscape", image_id=index+index_cnt, gt_id=os.path.splitext(item)[0],
+                                height=temp_image_size[0], width=temp_image_size[1],
+                                path=temp_image_path)
+            index_cnt += len(image_ids)
+            print(index_cnt)
+        print("load_shape_")
 
     def load_image(self, image_id):
         """Load images according to the given image ID."""
