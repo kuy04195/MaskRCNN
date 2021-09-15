@@ -2354,7 +2354,6 @@ class MaskRCNN(object):
         else:
             workers = multiprocessing.cpu_count()
 
-        print("Start keras_model.fit")
         self.keras_model.fit(
             train_generator,
             initial_epoch=self.epoch,
@@ -2367,8 +2366,6 @@ class MaskRCNN(object):
             workers=workers,
             use_multiprocessing=workers > 1,
         )
-        self.epoch = max(self.epoch, epochs)
-        print("End epoch")
 
     def mold_inputs(self, images):
         """Takes a list of images and modifies them to the format expected
