@@ -132,12 +132,12 @@ class CityscapeDataset(utils.Dataset):
         # Add images(modified)
         image_dir = "{}/{}".format(DATA_DIR, self.subset)
         index_cnt = 0
-        for city in os.listdir(image_dir):
+        for city in os.listdir(image_dir)[:1]:
 #            print("{}/{}".format(image_dir, city))
 #            city_dir.append("{}/{}".format(image_dir, city))
             image_ids = os.listdir("{}/{}".format(image_dir, city))
 
-            for index, item in enumerate(image_ids)[:1]:
+            for index, item in enumerate(image_ids):
                 temp_image_path = "{}/{}/{}".format(image_dir, city, item)
                 temp_image_size = skimage.io.imread(temp_image_path).shape
                 self.add_image("cityscape", image_id=index+index_cnt, gt_id=os.path.splitext(item)[0],
