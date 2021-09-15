@@ -132,7 +132,7 @@ class CityscapeDataset(utils.Dataset):
         # Add images(modified)
         image_dir = "{}/{}".format(DATA_DIR, self.subset)
         index_cnt = 0
-        for city in os.listdir(image_dir)[:6]:
+        for city in os.listdir(image_dir)[:3]:
 #            print("{}/{}".format(image_dir, city))
 #            city_dir.append("{}/{}".format(image_dir, city))
             image_ids = os.listdir("{}/{}".format(image_dir, city))
