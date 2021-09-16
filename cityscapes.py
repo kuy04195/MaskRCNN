@@ -157,14 +157,11 @@ class CityscapeDataset(utils.Dataset):
         """
         info = self.image_info[image_id]
         gt_id = info['gt_id']
-        mask_dir = "{}/{}/{}{}".format(MASK_DIR, self.subset, gt_id, "_gtFine_polygon")
+        mask_dir = "{}/{}/{}{}".format(MASK_DIR, self.subset, gt_id, "_gtFine_polygons")
         masks_list = os.listdir(mask_dir)
         count = len(masks_list)
         mask = np.zeros([info['height'], info['width'], count])
         class_ids = []
-
-        print(class_ids)
-        sys.stdout.flush()
 
         for index, item in enumerate(masks_list):
             temp_mask_path = "{}/{}".format(mask_dir, item)

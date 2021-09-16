@@ -21,7 +21,7 @@ empty = {}
 # enumerate train/val
 for key in subdir_list:
     empty_path = [item for item in payloads[key] if not os.listdir(item)]
-    empty_id = [re.findall(r"/(\w+_\d+_\d+)_gtFine_polygon", path)[0] for path in empty_path]
+    empty_id = [re.findall(r"/(\w+_\d+_\d+)_gtFine_polygons", path)[0] for path in empty_path]
     for id in empty_id:
         print(os.path.join(source_dir, key, id + '.png'))
         os.remove(os.path.join(source_dir, key, id + '.png'))
