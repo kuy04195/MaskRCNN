@@ -62,12 +62,13 @@ def printError(message):
 
 # The path that masks save to("train/val")
 # The json files path("train/val")
-Maskdir = None
-jsondir = None
-jsonfiles = None
+Maskdir = "../../data/gtFine/test"
+jsondir = "../../data/Json_files/test"
+jsonfiles = os.listdir(jsondir)
 
 # Convert the given annotation to a label image
 def createLabelImage(inJson, annotation, encoding, outline=None):
+    print(Maskdir)
     # the size of the image
     size = (annotation.imgWidth, annotation.imgHeight)
 
@@ -203,18 +204,12 @@ def target(jsondir, inJson):
 if __name__ == "__main__":
     pool = Pool(processes=6)
 
-    subsets = ['train', 'val', 'test']
-    for subset in subsets:
-        Maskdir = "../../data/gtFine/{}".format(subset)
-        jsondir = "../../data/Json_files/{}".format(subset)
-        jsonfiles = os.listdir(jsondir)
-
-        counter = 0
-        for jsonfile in jsonfiles:
-            inJson = jsonfile
-            _ = pool.apply_async(target, args=(jsondir, inJson))
-            print("successfully draw masks" + str(counter + 1))
-            counter += 1
+    counter = 0
+    for jsonfile in jsonfiles:
+        inJson = jsonfile
+        _ = pool.apply_async(target, args=(jsondir, inJson))
+        print("successfully draw masks" + str(counter + 1))
+        counter += 1
     
     pool.close()
     pool.join()
