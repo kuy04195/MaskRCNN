@@ -3,6 +3,7 @@
 
 import os
 import re
+import shutil
 
 mask_dir = '../../data/gtFine/'
 source_dir = '../../data/leftImg8bit/'

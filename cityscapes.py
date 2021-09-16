@@ -119,9 +119,14 @@ class CityscapeDataset(utils.Dataset):
         self.add_class("cityscape", 5, "motorcycle")
         self.add_class("cityscape", 6, "bicycle")
 
-        # Add images(legacy)
+        # Add images
         image_dir = "{}/{}".format(DATA_DIR, self.subset)
-        image_ids = os.listdir(image_dir)[:500]
+        image_ids = os.listdir(image_dir)
+
+        if(len(image_ids) > 500):
+            image_ids = image_ids[:500]
+        print(len(image_ids))
+
         for index, item in enumerate(image_ids):
             if (index+1) %100 == 0:
                 print("loading shape of {}th image, subset = {}".format(index + 1, self.subset))
@@ -131,23 +136,6 @@ class CityscapeDataset(utils.Dataset):
                             height=temp_image_size[0], width=temp_image_size[1],
                             path=temp_image_path)
         
-        # Add images(modified)
-#        image_dir = "{}/{}".format(DATA_DIR, self.subset)
-#        index_cnt = 0
-#        for city in os.listdir(image_dir)[:2]:
-#            print("{}/{}".format(image_dir, city))
-#            city_dir.append("{}/{}".format(image_dir, city))
-#            image_ids = os.listdir("{}/{}".format(image_dir, city))
-
-#            for index, item in enumerate(image_ids):
-#                temp_image_path = "{}/{}/{}".format(image_dir, city, item)
-#                temp_image_size = skimage.io.imread(temp_image_path).shape
-#                self.add_image("cityscape", image_id=index+index_cnt, gt_id=os.path.splitext(item)[0],
-#                                height=temp_image_size[0], width=temp_image_size[1],
-#                                path=temp_image_path)
-#            index_cnt += len(image_ids)
-#            print(index_cnt)
-
     def load_image(self, image_id):
         """Load images according to the given image ID."""
         info = self.image_info[image_id]
@@ -169,13 +157,14 @@ class CityscapeDataset(utils.Dataset):
         """
         info = self.image_info[image_id]
         gt_id = info['gt_id']
-        mask_dir = "{}/{}/{}".format(MASK_DIR, self.subset, gt_id)
-        print(gt_id)
-        print(mask_dir)
+        mask_dir = "{}/{}/{}{}".format(MASK_DIR, self.subset, gt_id, "_gtFine_polygon")
         masks_list = os.listdir(mask_dir)
         count = len(masks_list)
         mask = np.zeros([info['height'], info['width'], count])
         class_ids = []
+
+        print(class_ids)
+        sys.stdout.flush()
 
         for index, item in enumerate(masks_list):
             temp_mask_path = "{}/{}".format(mask_dir, item)
