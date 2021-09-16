@@ -216,6 +216,6 @@ if __name__ == "__main__":
             print("successfully draw masks" + str(counter + 1))
             counter += 1
     
-            pool.close()
+    pool.close()
     pool.join()
     print(counter)
