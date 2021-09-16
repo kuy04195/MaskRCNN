@@ -62,13 +62,12 @@ def printError(message):
 
 # The path that masks save to("train/val")
 # The json files path("train/val")
-Maskdir = "../../data/gtFine/test"
-jsondir = "../../data/Json_files/test"
+Maskdir = "../../data/gtFine/{}".format(sys.argv[1])
+jsondir = "../../data/Json_files/{}".format(sys.argv[1])
 jsonfiles = os.listdir(jsondir)
 
 # Convert the given annotation to a label image
 def createLabelImage(inJson, annotation, encoding, outline=None):
-    print(Maskdir)
     # the size of the image
     size = (annotation.imgWidth, annotation.imgHeight)
 
