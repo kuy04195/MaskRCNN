@@ -7,6 +7,7 @@ Licensed under the MIT License (see LICENSE for details)
 Written by Waleed Abdulla
 """
 
+import sys
 import os
 import datetime
 import re
@@ -1807,6 +1808,7 @@ class DataGenerator(KU.Sequence):
                 outputs.extend(
                     [batch_mrcnn_class_ids, batch_mrcnn_bbox, batch_mrcnn_mask])
 
+        sys.stdout.flush()
         return inputs, outputs
 
 

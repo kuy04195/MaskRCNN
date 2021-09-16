@@ -37,7 +37,7 @@ except:
 
 
 # cityscapes imports
-#sys.path.append( os.path.normpath( os.path.join( os.path.dirname( __file__ ) , '..' , 'helpers' ) ) )
+sys.path.append( os.path.normpath( os.path.join( os.path.dirname( __file__ ) , '..' , 'helpers' ) ) )
 from annotation import Annotation
 from labels     import name2label
 
@@ -61,8 +61,9 @@ def printError(message):
     sys.exit(-1)
 
 # The path that masks save to("train/val")
-# The json files path("train/val")
 Maskdir = "../../data/gtFine/{}".format(sys.argv[1])
+
+# The json files path("train/val")
 jsondir = "../../data/Json_files/{}".format(sys.argv[1])
 jsonfiles = os.listdir(jsondir)
 
@@ -201,15 +202,15 @@ def target(jsondir, inJson):
 
 # call the main method
 if __name__ == "__main__":
-    pool = Pool(processes=6)
-
+    # main(sys.argv[1:])
     counter = 0
+    pool = Pool(processes=6)
     for jsonfile in jsonfiles:
         inJson = jsonfile
         _ = pool.apply_async(target, args=(jsondir, inJson))
         print("successfully draw masks" + str(counter + 1))
         counter += 1
-    
+
     pool.close()
     pool.join()
     print(counter)
