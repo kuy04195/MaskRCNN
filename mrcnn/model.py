@@ -1808,6 +1808,7 @@ class DataGenerator(KU.Sequence):
                 outputs.extend(
                     [batch_mrcnn_class_ids, batch_mrcnn_bbox, batch_mrcnn_mask])
 
+        print("__getitem__ {}".format(image_index))
         sys.stdout.flush()
         return inputs, outputs
 
