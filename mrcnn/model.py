@@ -1700,13 +1700,14 @@ class DataGenerator(KU.Sequence):
         self.random_rois = random_rois
         self.batch_size = self.config.BATCH_SIZE
         self.detection_targets = detection_targets
+        self.image_index=-1
 
     def __len__(self):
         return int(np.ceil(len(self.image_ids) / float(self.batch_size)))
 
     def __getitem__(self, idx):
         b = 0
-        image_index = -1
+        image_index = (idx * self.batch_size) % len(self.image_ids) - 1
         while b < self.batch_size:
             # Increment index to pick next image. Shuffle if at the start of an epoch.
             image_index = (image_index + 1) % len(self.image_ids)
@@ -1808,7 +1809,7 @@ class DataGenerator(KU.Sequence):
                 outputs.extend(
                     [batch_mrcnn_class_ids, batch_mrcnn_bbox, batch_mrcnn_mask])
 
-        print("__getitem__ {}".format(image_index))
+        print("__getitem__ image_index = {}, idx = {}, batch_size = {}".format(image_index, idx, self.batch_size))
         sys.stdout.flush()
         return inputs, outputs
 
