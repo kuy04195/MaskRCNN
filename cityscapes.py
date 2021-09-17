@@ -123,8 +123,8 @@ class CityscapeDataset(utils.Dataset):
         image_dir = "{}/{}".format(DATA_DIR, self.subset)
         image_ids = os.listdir(image_dir)
 
-        if(len(image_ids) > 500):
-            image_ids = image_ids[:500]
+        if(len(image_ids) > 200):
+            image_ids = image_ids[:200]
         print(len(image_ids))
 
         for index, item in enumerate(image_ids):
@@ -221,6 +221,28 @@ elif init_with == "coco":
 elif init_with == "last":
     # Load the last model you trained and continue training
     model.load_weights(model.find_last()[1], by_name=True)
+
+import GPUtil
+from threading import Thread
+import time
+
+class Monitor(Thread):
+    def __init__(self, delay):
+        super(Monitor, self).__init__()
+        self.stopped = False
+        self.delay = delay # Time between calls to GPUtil
+        self.start()
+
+    def run(self):
+        while not self.stopped:
+            GPUtil.showUtilization()
+            time.sleep(self.delay)
+
+    def stop(self):
+        self.stopped = True
+        
+monitor = Monitor(10)
+#monitor.stop()
 
 if TRAINING:
     # Train the head branches

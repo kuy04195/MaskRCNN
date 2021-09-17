@@ -24,6 +24,7 @@ from tensorflow.python.eager import context
 import tensorflow.keras.models as KM
 
 from mrcnn import utils
+#from mrcnn import training as KM
 
 # Requires TensorFlow 2.0+
 from distutils.version import LooseVersion
